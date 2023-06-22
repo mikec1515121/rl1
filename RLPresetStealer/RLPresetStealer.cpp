@@ -9,7 +9,7 @@ std::shared_ptr<CVarManagerWrapper> _globalCvarManager;
 void RLPresetStealer::onLoad()
 {
 	_globalCvarManager = cvarManager;
-	//cvarManager->log("Plugin loaded!");
+	Log("hello world!");
 
 	//cvarManager->registerNotifier("my_aweseome_notifier", [&](std::vector<std::string> args) {
 	//	cvarManager->log("Hello notifier!");
@@ -47,4 +47,31 @@ void RLPresetStealer::onLoad()
 
 void RLPresetStealer::onUnload()
 {
+	Log("goodbye world");
+}
+
+void RLPresetStealer::Log(std::string message) {
+	cvarManager->log(message);
+}
+
+void RLPresetStealer::loadAllPresetsInLobby() {
+
+	//null check being in game
+	if (!gameWrapper->IsInOnlineGame()) {
+		return;
+	}
+
+	ServerWrapper server = gameWrapper->GetCurrentGameState();
+
+
+	//null check server
+	if (!server) { return; }
+
+
+	//if this is reached we have user is in game and server exists
+	server.GetPRIs();
+
+	server.pri
+
+
 }

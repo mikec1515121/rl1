@@ -16,6 +16,8 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin/*, public Bakke
 	//Boilerplate
 	virtual void onLoad();
 	virtual void onUnload();
+	void Log(std::string message);
+	void loadAllPresetsInLobby();
 
 	// Inherited via PluginSettingsWindow
 	/*
