@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "RLPresetStealer.h"
+#include "bakkesmod/utilities/LoadoutUtilities.h"
+
+
+#include <optional>
 
 
 BAKKESMOD_PLUGIN(RLPresetStealer, "Copy a player's preset in your game for you to use", plugin_version, PLUGINTYPE_FREEPLAY)
@@ -45,16 +49,23 @@ void RLPresetStealer::onLoad()
 	//
 }
 
+
+
 void RLPresetStealer::onUnload()
 {
 	Log("goodbye world");
 }
 
+
+
 void RLPresetStealer::Log(std::string message) {
 	cvarManager->log(message);
 }
 
+
+
 void RLPresetStealer::loadAllPresetsInLobby() {
+
 
 	//null check being in game
 	if (!gameWrapper->IsInOnlineGame()) {
@@ -69,9 +80,28 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 
 	//if this is reached we have user is in game and server exists
-	server.GetPRIs();
+	//get all PRIs from game event object
+	auto array_pris = server.GetPRIs();
 
-	server.pri
+	if (array_pris.IsNull()) {
+		return;
+	}
+
+	//loop through each PRI and get the loadout
+	for (PriWrapper pri : array_pris) {
+
+		auto loadout_promise = LoadoutUtilities::GetLoadoutFromPri(pri, pri.GetTeamNum2());
+
+		if (!loadout_promise) { continue; }
+
+		auto& [items, paint_finish] = *loadout_promise;
+
+		Log("got a loadout From PRI");
 
 
+	}
+
+	
 }
+
+
