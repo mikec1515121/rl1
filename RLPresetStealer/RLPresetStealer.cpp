@@ -41,6 +41,8 @@ void RLPresetStealer::onLoad()
 	//});
 	// You could also use std::bind here
 	//gameWrapper->HookEvent("Function TAGame.Ball_TA.Explode", std::bind(&RLPresetStealer::YourPluginMethod, this);
+
+	//
 }
 
 void RLPresetStealer::onUnload()
