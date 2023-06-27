@@ -8,7 +8,7 @@
 constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
 
 
-class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin /*, public BakkesMod::Plugin::PluginSettingsWindow, public BakkesMod::Plugin::PluginWindow */
+class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesMod::Plugin::PluginSettingsWindow, public BakkesMod::Plugin::PluginWindow
 {
 
 	std::shared_ptr<bool> enabled;
@@ -18,22 +18,19 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin /*, public Bakk
 	virtual void onUnload();
 
 
-	
-
 	void loadAllPresetsInLobby();
-
 	void loadHooks();
+	void registerCvars();
 	
 
 	// Inherited via PluginSettingsWindow
 
-	//void RenderSettings() override;
+	void RenderSettings() override;
 
-
-	/*
 	std::string GetPluginName() override;
 	void SetImGuiContext(uintptr_t ctx) override;
-	*/
+	
+
 
 	// Inherited via PluginWindow
 	
@@ -42,7 +39,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin /*, public Bakk
 	bool isMinimized_ = false;
 	std::string menuTitle_ = "RLPresetStealer";
 
-	/*
+	
 	virtual void Render() override;
 	virtual std::string GetMenuName() override;
 	virtual std::string GetMenuTitle() override;
@@ -52,7 +49,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin /*, public Bakk
 	virtual void OnOpen() override;
 	virtual void OnClose() override;
 
-	*/
+	
 	
 	
 };

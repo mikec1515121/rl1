@@ -8,7 +8,10 @@
 
 BAKKESMOD_PLUGIN(RLPresetStealer, "Copy a player's preset in your game for you to use", plugin_version, PLUGINTYPE_FREEPLAY)
 
+
 std::shared_ptr<CVarManagerWrapper> _globalCvarManager;
+
+
 
 void RLPresetStealer::onLoad()
 {
@@ -16,12 +19,12 @@ void RLPresetStealer::onLoad()
 	LOG("hello world!");
 	loadHooks();
 
+	
+
 	//cvarManager->registerNotifier("my_aweseome_notifier", [&](std::vector<std::string> args) {
 	//	cvarManager->log("Hello notifier!");
 	//}, "", 0);
 
-	//auto cvar = cvarManager->registerCvar("template_cvar", "hello-cvar", "just a example of a cvar");
-	//auto cvar2 = cvarManager->registerCvar("template_cvar2", "0", "just a example of a cvar with more settings", true, true, -10, true, 10 );
 
 	//cvar.addOnValueChanged([this](std::string cvarName, CVarWrapper newCvar) {
 	//	cvarManager->log("the cvar with name: " + cvarName + " changed");
@@ -66,7 +69,12 @@ void RLPresetStealer::loadHooks() {
 
 	LOG("loading all hooks");
 
-	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	//need to think of where to hook the pri calls
+	//if player leaves game early this will not call
+	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+
+	//for easier testing
+	//gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 	
 }
 
@@ -101,16 +109,33 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 		auto loadout_promise = LoadoutUtilities::GetLoadoutFromPri(pri, pri.GetTeamNum2());
 
+		
+
 		if (!loadout_promise) { continue; }
+
+
 
 		auto& [items, paint_finish] = *loadout_promise;
 
-		LOG("got a loadout From PRI");
+		//make sure names are correct
+		LOG("got a loadout From PRI: " + pri.GetPlayerName().ToString());
 
 
 	}
 
 	
+}
+
+
+void RLPresetStealer::registerCvars() {
+
+	cvarManager->registerCvar("presetStealer_enabled", "1", "disable/enable preset", true, true, 0, true, 1);
+	cvarManager->registerCvar("presetStealer_autoSwitchLoadout", "1", "disable/enable auto switch", true, true, 0, true, 1);
+
+	//max presets saved is 7 because largest online-gamemode is chaos(7 ppl besides current user)
+	cvarManager->registerCvar("presetStealer_numPresetSaves", "1", "number of presets that can be saved per game", true, true, 1, true, 7);
+
+
 }
 
 
