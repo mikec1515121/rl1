@@ -14,6 +14,7 @@ void RLPresetStealer::onLoad()
 {
 	_globalCvarManager = cvarManager;
 	LOG("hello world!");
+	loadHooks();
 
 	//cvarManager->registerNotifier("my_aweseome_notifier", [&](std::vector<std::string> args) {
 	//	cvarManager->log("Hello notifier!");
@@ -54,7 +55,7 @@ void RLPresetStealer::onLoad()
 void RLPresetStealer::onUnload()
 {
 	LOG("goodbye world");
-	loadHooks();
+	
 }
 
 
@@ -65,7 +66,7 @@ void RLPresetStealer::loadHooks() {
 
 	LOG("loading all hooks");
 
-	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA_EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 	
 }
 
@@ -91,6 +92,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 	auto array_pris = server.GetPRIs();
 
 	if (array_pris.IsNull()) {
+		LOG("PRIS ARE NULL");
 		return;
 	}
 
