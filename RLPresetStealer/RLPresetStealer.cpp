@@ -3,7 +3,7 @@
 #include "bakkesmod/utilities/LoadoutUtilities.h"
 
 
-#include <optional>
+
 
 
 BAKKESMOD_PLUGIN(RLPresetStealer, "Copy a player's preset in your game for you to use", plugin_version, PLUGINTYPE_FREEPLAY)
@@ -13,7 +13,7 @@ std::shared_ptr<CVarManagerWrapper> _globalCvarManager;
 void RLPresetStealer::onLoad()
 {
 	_globalCvarManager = cvarManager;
-	Log("hello world!");
+	LOG("hello world!");
 
 	//cvarManager->registerNotifier("my_aweseome_notifier", [&](std::vector<std::string> args) {
 	//	cvarManager->log("Hello notifier!");
@@ -53,13 +53,20 @@ void RLPresetStealer::onLoad()
 
 void RLPresetStealer::onUnload()
 {
-	Log("goodbye world");
+	LOG("goodbye world");
+	loadHooks();
 }
 
 
 
-void RLPresetStealer::Log(std::string message) {
-	cvarManager->log(message);
+
+
+void RLPresetStealer::loadHooks() {
+
+	LOG("loading all hooks");
+
+	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA_EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	
 }
 
 
@@ -96,7 +103,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 		auto& [items, paint_finish] = *loadout_promise;
 
-		Log("got a loadout From PRI");
+		LOG("got a loadout From PRI");
 
 
 	}
