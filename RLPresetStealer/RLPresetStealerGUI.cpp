@@ -77,7 +77,9 @@ void RLPresetStealer::RenderSettings() {
     if (ImGui::Button("Steal Preset From: ")) {
 
         gameWrapper->Execute([this](GameWrapper* gw) {
-            cvarManager->executeCommand("PresetStealEnable");
+           
+            LOG("bab");
+
             });
     }
 
@@ -125,11 +127,7 @@ std::string RLPresetStealer::GetMenuTitle()
 	return menuTitle_;
 }
 
-// Don't call this yourself, BM will call this function with a pointer to the current ImGui context
-void RLPresetStealer::SetImGuiContext(uintptr_t ctx)
-{
-	ImGui::SetCurrentContext(reinterpret_cast<ImGuiContext*>(ctx));
-}
+
 
 // Should events such as mouse clicks/key inputs be blocked so they won't reach the game
 bool RLPresetStealer::ShouldBlockInput()

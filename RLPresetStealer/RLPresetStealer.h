@@ -43,7 +43,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesM
 	virtual void Render() override;
 	virtual std::string GetMenuName() override;
 	virtual std::string GetMenuTitle() override;
-	virtual void SetImGuiContext(uintptr_t ctx) override;
+	
 	virtual bool ShouldBlockInput() override;
 	virtual bool IsActiveOverlay() override;
 	virtual void OnOpen() override;

@@ -16,8 +16,11 @@ std::shared_ptr<CVarManagerWrapper> _globalCvarManager;
 void RLPresetStealer::onLoad()
 {
 	_globalCvarManager = cvarManager;
-	LOG("hello world!");
+
+
+
 	loadHooks();
+	registerCvars();
 
 	
 
@@ -71,10 +74,10 @@ void RLPresetStealer::loadHooks() {
 
 	//need to think of where to hook the pri calls
 	//if player leaves game early this will not call
-	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	//gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 
 	//for easier testing
-	//gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 	
 }
 
@@ -107,15 +110,35 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 	//loop through each PRI and get the loadout
 	for (PriWrapper pri : array_pris) {
 
-		auto loadout_promise = LoadoutUtilities::GetLoadoutFromPri(pri, pri.GetTeamNum2());
 
-		
+		std::optional<pluginsdk::Loadout> loadout_promise = LoadoutUtilities::GetLoadoutFromPri(pri, pri.GetTeamNum2());
+
 
 		if (!loadout_promise) { continue; }
 
 
 
-		auto& [items, paint_finish] = *loadout_promise;
+		pluginsdk::ItemDataMap& items = loadout_promise->items;
+		pluginsdk::CarColors& colors = loadout_promise->paint_finish;
+
+		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
+
+		LOG("items logging");
+
+		for (it = items.begin(); it != items.end(); it++) {
+
+			LOG("equipslot = {}, item data = {}", it->first, it->second.product_id);
+
+		}
+
+
+		LOG(colors);
+
+
+
+	
+
+
 
 		//make sure names are correct
 		LOG("got a loadout From PRI: " + pri.GetPlayerName().ToString());
