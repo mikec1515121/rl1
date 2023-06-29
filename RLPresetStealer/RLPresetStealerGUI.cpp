@@ -74,20 +74,7 @@ void RLPresetStealer::RenderSettings() {
     //Create button for each player in last game
     //The number of buttons for presets depends on the game mode:
 
-    if (ImGui::Button("Steal Preset From: ")) {
 
-        gameWrapper->Execute([this](GameWrapper* gw) {
-           
-            LOG("bab");
-
-            });
-    }
-
-    if (ImGui::IsItemHovered()) {
-
-        ImGui::SetTooltip("Steal and equip Preset");
-
-    }
 
 
 

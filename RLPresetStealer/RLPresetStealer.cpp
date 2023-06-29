@@ -132,7 +132,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		}
 
 
-		LOG(colors);
+		
 
 
 
