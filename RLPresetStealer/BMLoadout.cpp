@@ -11,7 +11,7 @@
 
 
 
-void write_loadout(BitBinaryWriter<unsigned char>& writer, std::map<uint8_t, Item> loadout)
+void BMLoadout::write_loadout(BitBinaryWriter<unsigned char>& writer, std::map<uint8_t, Item> loadout)
 {
 	//Save current position so we can write the length here later
 	const int amountStorePos = writer.current_bit;
@@ -44,7 +44,7 @@ void write_loadout(BitBinaryWriter<unsigned char>& writer, std::map<uint8_t, Ite
 	writer.current_bit = amountStorePos2; //Set back reader to original position
 }
 
-void write_color(BitBinaryWriter<unsigned char>& writer, RGB color)
+void BMLoadout::write_color(BitBinaryWriter<unsigned char>& writer, RGB color)
 {
 	writer.WriteBits(color.r, 8);
 	writer.WriteBits(color.g, 8);
@@ -52,7 +52,7 @@ void write_color(BitBinaryWriter<unsigned char>& writer, RGB color)
 }
 
 
-std::string save(BMLoadout loadout)
+std::string BMLoadout::save(BMLoadout loadout)
 {
 	//Allocate buffer thats big enough
 	BitBinaryWriter<unsigned char> writer(10000);
