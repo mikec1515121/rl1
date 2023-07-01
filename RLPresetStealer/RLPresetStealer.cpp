@@ -125,12 +125,14 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 		LOG("items logging");
 
+
+		
 		for (it = items.begin(); it != items.end(); it++) {
 
 			LOG("equipslot = {}, item data = {}", it->first, it->second.product_id);
 
 		}
-
+		
 
 		
 
