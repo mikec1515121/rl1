@@ -72,15 +72,31 @@ void RLPresetStealer::loadHooks() {
 
 	LOG("loading all hooks");
 
-	//need to think of where to hook the pri calls
-	//if player leaves game early this will not call
-	//gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
-
+	/*
+	* Hook the actual fetching of pris and loadouts to happen during game,
+	* but the swaps can only be made in the lobby
+	*/
+	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 	//for easier testing
 	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+
+
+
 	
 }
 
+void RLPresetStealer::callCodeInConsole(std::string code)
+
+{
+	//have to have itemod enable so call that first
+	cvarManager->executeCommand("cl_itemmod_enabled 1; cl_itemmod_code \"" + code + "\"");
+}
+
+
+void RLPresetStealer::enableAllSwaps() {
+
+
+}
 
 
 void RLPresetStealer::loadAllPresetsInLobby() {
@@ -126,21 +142,14 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		LOG("items logging");
 
 
-		
+		//for testing the print out
+		/*
 		for (it = items.begin(); it != items.end(); it++) {
 
 			LOG("equipslot = {}, item data = {}", it->first, it->second.product_id);
 
 		}
-		
-
-		
-
-
-
-	
-
-
+		*/ 
 
 		//make sure names are correct
 		LOG("got a loadout From PRI: " + pri.GetPlayerName().ToString());

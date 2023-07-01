@@ -4,6 +4,8 @@
 #include "bakkesmod/plugin/pluginwindow.h"
 #include "bakkesmod/plugin/PluginSettingsWindow.h"
 
+#include "BMLoadout.h"
+
 #include "version.h"
 constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
 
@@ -19,6 +21,10 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesM
 
 
 	void loadAllPresetsInLobby();
+	void enableAllSwaps();
+	void callCodeInConsole(std::string code);
+
+
 	void loadHooks();
 	void registerCvars();
 	
