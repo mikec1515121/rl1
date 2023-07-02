@@ -155,6 +155,8 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		return;
 	}
 
+	std::map<std::string, BMLoadout::BMLoadout> loadout_map;
+
 	//loop through each PRI and get the loadout
 	for (PriWrapper pri : array_pris) {
 
@@ -170,6 +172,8 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		pluginsdk::CarColors& colors = loadout_promise->paint_finish;
 
 		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
+
+		
 		
 
 		LOG("items logging");
@@ -223,11 +227,24 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 		}
 
+		
 
-		//call display all buttons next
+		//add singular loadout to map of all loadouts
+
+		std::pair<std::string, BMLoadout::BMLoadout> name_loadout_pair;
+		name_loadout_pair.first = pri.GetPlayerName().ToString();
+		name_loadout_pair.second = newLoadout;
+
+
+		loadout_map.insert(name_loadout_pair);
+
+
 
 
 	}
+
+
+	displayAllSwapButtons(loadout_map);
 
 	
 }
