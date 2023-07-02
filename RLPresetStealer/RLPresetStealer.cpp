@@ -82,7 +82,6 @@ void RLPresetStealer::loadHooks() {
 	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 
 
-
 	
 }
 
@@ -94,10 +93,40 @@ void RLPresetStealer::callCodeInConsole(std::string code)
 }
 
 
-//called in lobby after a game has ended
-void RLPresetStealer::enableAllSwaps() {
+/*
+* MAKE SURE THIS IS CALLED IN MAIN MENU
+* 
+*/
+void RLPresetStealer::displayAllSwapButtons(std::map<std::string, BMLoadout::BMLoadout> name_with_loadout) {
 
 	LOG("enabled swaps from previous games");
+
+	std::map<std::string, BMLoadout::BMLoadout>::iterator mapIt;
+
+
+
+	for (mapIt = name_with_loadout.begin(); mapIt != name_with_loadout.end(); ++mapIt) {
+
+		const char* name = mapIt->first.c_str();
+
+		BMLoadout::BMLoadout loadout = mapIt->second;
+
+
+		if (ImGui::Button(name)) {
+
+			LOG("created button for " + *name);
+
+			std::string presetCode = BMLoadout::save(loadout);
+
+			callCodeInConsole(presetCode);
+
+
+		}
+
+
+
+	}
+
 
 }
 
@@ -167,13 +196,14 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		newLoadout.body.orangeColor.should_override = true;
 
 
+		// ++it or it++?
+		for (it = items.begin(); it != items.end(); ++it) {
 
-		for (it = items.begin(); it != items.end(); it++) {
+			//TODO:  null check any of this?
 
-			//null check any of this?
 			BMLoadout::Item item;
 
-			item.slot_index = (uint8_t) it->first;
+			item.slot_index = (uint8_t)it->first;
 
 			item.product_id = (uint16_t)it->second.product_id;
 
@@ -194,23 +224,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		}
 
 
-		std::string presetCode = BMLoadout::save(newLoadout);
-
-		//callCodeInConsole(presetCode);
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
+		//call display all buttons next
 
 
 	}
@@ -226,6 +240,8 @@ void RLPresetStealer::registerCvars() {
 
 	//max presets saved is 7 because largest online-gamemode is chaos(7 ppl besides current user)
 	cvarManager->registerCvar("presetStealer_numPresetSaves", "1", "number of presets that can be saved per game", true, true, 1, true, 7);
+
+
 
 
 }

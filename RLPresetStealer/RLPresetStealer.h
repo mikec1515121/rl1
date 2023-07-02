@@ -21,7 +21,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesM
 
 
 	void loadAllPresetsInLobby();
-	void enableAllSwaps();
+	void displayAllSwapButtons(std::map<std::string, BMLoadout::BMLoadout> name_with_loadout );
 	void callCodeInConsole(std::string code);
 
 
