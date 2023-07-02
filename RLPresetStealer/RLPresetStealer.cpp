@@ -77,7 +77,7 @@ void RLPresetStealer::loadHooks() {
 	* Hook the actual fetching of pris and loadouts to happen during game,
 	* but the swaps can only be made in the lobby
 	*/
-	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
+	//gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.EventMatchEnded", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 	//for easier testing
 	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 
@@ -97,6 +97,7 @@ void RLPresetStealer::callCodeInConsole(std::string code)
 //called in lobby after a game has ended
 void RLPresetStealer::enableAllSwaps() {
 
+	LOG("enabled swaps from previous games");
 
 }
 
@@ -140,7 +141,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		pluginsdk::CarColors& colors = loadout_promise->paint_finish;
 
 		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
-		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
+		
 
 		LOG("items logging");
 
@@ -178,11 +179,15 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 			
 			//How to get paint index from items?
-			//item.paint_index = (uint8_t)it->second
+			//item.paint_index = (uint8_t)it->second.attributes.at(pluginsdk::ItemAttribute::AttributeType::PAINT);
+			
 			//pluginsdk::ItemAttribute::AttributeType::PAINT
+
+			
 
 			newLoadout.body.blue_loadout[item.slot_index] = item;
 			newLoadout.body.orange_loadout[item.slot_index] = item;
+
 
 
 
