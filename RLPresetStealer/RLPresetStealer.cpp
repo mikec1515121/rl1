@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RLPresetStealer.h"
 #include "bakkesmod/utilities/LoadoutUtilities.h"
+#include "bakkesmod/core/loadout_structs.h"
 
 
 
@@ -139,6 +140,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		pluginsdk::CarColors& colors = loadout_promise->paint_finish;
 
 		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
+		std::map<pluginsdk::Equipslot, pluginsdk::ItemData>::iterator it;
 
 		LOG("items logging");
 
@@ -154,6 +156,56 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 		//make sure names are correct
 		LOG("got a loadout From PRI: " + pri.GetPlayerName().ToString());
+
+
+		//save the loadout
+		BMLoadout::BMLoadout newLoadout;
+
+
+		newLoadout.body.blueColor.should_override = true;
+		newLoadout.body.orangeColor.should_override = true;
+
+
+
+		for (it = items.begin(); it != items.end(); it++) {
+
+			//null check any of this?
+			BMLoadout::Item item;
+
+			item.slot_index = (uint8_t) it->first;
+
+			item.product_id = (uint16_t)it->second.product_id;
+
+			
+			//How to get paint index from items?
+			//item.paint_index = (uint8_t)it->second
+			//pluginsdk::ItemAttribute::AttributeType::PAINT
+
+			newLoadout.body.blue_loadout[item.slot_index] = item;
+			newLoadout.body.orange_loadout[item.slot_index] = item;
+
+
+
+		}
+
+
+		std::string presetCode = BMLoadout::save(newLoadout);
+
+		//callCodeInConsole(presetCode);
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
 
 
 	}
