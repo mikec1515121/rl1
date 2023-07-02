@@ -88,11 +88,12 @@ void RLPresetStealer::loadHooks() {
 void RLPresetStealer::callCodeInConsole(std::string code)
 
 {
-	//have to have itemod enable so call that first
+	//have to have itemmod enable so call that first
 	cvarManager->executeCommand("cl_itemmod_enabled 1; cl_itemmod_code \"" + code + "\"");
 }
 
 
+//called in lobby after a game has ended
 void RLPresetStealer::enableAllSwaps() {
 
 
