@@ -50,6 +50,7 @@ void RLPresetStealer::RenderSettings() {
 
     //slider for the max number of players' presets that user can save
 
+    /*
     CVarWrapper numSavesCvar = cvarManager->getCvar("presetStealer_numPresetSaves");
 
     if (!numSavesCvar) { return; }
@@ -70,13 +71,7 @@ void RLPresetStealer::RenderSettings() {
     }
 
 
-
-    //Create button for each player in last game
-    //The number of buttons for presets depends on the game mode:
-
-
-
-
+    */
 
 
 

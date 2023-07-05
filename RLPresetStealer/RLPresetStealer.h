@@ -14,6 +14,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesM
 {
 
 	std::shared_ptr<bool> enabled;
+	std::map<std::string, BMLoadout::BMLoadout> RLPRESESTSTEALER_map;
 
 	//Boilerplate
 	virtual void onLoad();
@@ -21,7 +22,7 @@ class RLPresetStealer: public BakkesMod::Plugin::BakkesModPlugin, public BakkesM
 
 
 	void loadAllPresetsInLobby();
-	void displayAllSwapButtons(std::map<std::string, BMLoadout::BMLoadout> name_with_loadout );
+	void displayAllSwapButtons();
 	void callCodeInConsole(std::string code);
 
 

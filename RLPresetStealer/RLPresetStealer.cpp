@@ -82,6 +82,8 @@ void RLPresetStealer::loadHooks() {
 	gameWrapper->HookEvent("Function GameEvent_Soccar_TA.Active.StartRound", std::bind(&RLPresetStealer::loadAllPresetsInLobby, this));
 
 
+	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.Destroyed", std::bind(&RLPresetStealer::displayAllSwapButtons, this));
+
 	
 }
 
@@ -97,7 +99,10 @@ void RLPresetStealer::callCodeInConsole(std::string code)
 * MAKE SURE THIS IS CALLED IN MAIN MENU
 * 
 */
-void RLPresetStealer::displayAllSwapButtons(std::map<std::string, BMLoadout::BMLoadout> name_with_loadout) {
+void RLPresetStealer::displayAllSwapButtons() {
+
+
+	std::map<std::string, BMLoadout::BMLoadout> name_with_loadout = this->RLPRESESTSTEALER_map;
 
 	LOG("enabled swaps from previous games");
 
@@ -243,8 +248,8 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 	}
 
-
-	displayAllSwapButtons(loadout_map);
+	
+	this->RLPRESESTSTEALER_map = loadout_map;
 
 	
 }
