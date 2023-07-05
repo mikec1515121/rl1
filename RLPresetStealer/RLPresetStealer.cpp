@@ -101,6 +101,16 @@ void RLPresetStealer::callCodeInConsole(std::string code)
 */
 void RLPresetStealer::displayAllSwapButtons() {
 
+	/*
+	* should happen in main lobby. null check more?
+	*/
+
+	if (gameWrapper->IsInFreeplay() || gameWrapper->IsInOnlineGame() || gameWrapper->IsInCustomTraining() || this->RLPRESESTSTEALER_map.empty()) {
+
+		return;
+
+	}
+
 
 	std::map<std::string, BMLoadout::BMLoadout> name_with_loadout = this->RLPRESESTSTEALER_map;
 
@@ -123,7 +133,7 @@ void RLPresetStealer::displayAllSwapButtons() {
 
 			std::string presetCode = BMLoadout::save(loadout);
 
-			callCodeInConsole(presetCode);
+			//callCodeInConsole(presetCode);
 
 
 		}
@@ -205,7 +215,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 		newLoadout.body.orangeColor.should_override = true;
 
 
-		// ++it or it++?
+		
 		for (it = items.begin(); it != items.end(); ++it) {
 
 			//TODO:  null check any of this?
@@ -257,7 +267,7 @@ void RLPresetStealer::loadAllPresetsInLobby() {
 
 void RLPresetStealer::registerCvars() {
 
-	cvarManager->registerCvar("presetStealer_enabled", "1", "disable/enable preset", true, true, 0, true, 1);
+	cvarManager->registerCvar("presetStealer_enabled", "1", "disable/enable preset stealer", true, true, 0, true, 1);
 	cvarManager->registerCvar("presetStealer_autoSwitchLoadout", "1", "disable/enable auto switch", true, true, 0, true, 1);
 
 	//max presets saved is 7 because largest online-gamemode is chaos(7 ppl besides current user)
