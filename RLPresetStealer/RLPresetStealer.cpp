@@ -105,16 +105,41 @@ void RLPresetStealer::displayAllSwapButtons() {
 	* should happen in main lobby. null check more?
 	*/
 
-	if (gameWrapper->IsInFreeplay() || gameWrapper->IsInOnlineGame() || gameWrapper->IsInCustomTraining() || this->RLPRESESTSTEALER_map.empty()) {
+	LOG("Displaying all swap buttons");
+
+	
+	if (gameWrapper->IsInFreeplay()){
+
+		LOG("in free play");
+
+		
+
+	}
+
+	if (gameWrapper->IsInCustomTraining()) {
+
+		LOG("in custom training");
+
+
+	}
+
+	if (gameWrapper->IsInOnlineGame()) {
+
+		LOG("in online game");
+
+	}
+
+	if (this->RLPRESESTSTEALER_map.empty() ){
+
+		LOG("Loadouts are empty");
 
 		return;
-
 	}
 
 
 	std::map<std::string, BMLoadout::BMLoadout> name_with_loadout = this->RLPRESESTSTEALER_map;
 
-	LOG("enabled swaps from previous games");
+	
 
 	std::map<std::string, BMLoadout::BMLoadout>::iterator mapIt;
 
