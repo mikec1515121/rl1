@@ -4,7 +4,7 @@ name: Release
 on:
   push:
     tags:
-    - 'v34'
+    - 'v*'
 
 env:
   SOLUTION_NAME: RLPresetStealer
